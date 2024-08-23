@@ -1,0 +1,50 @@
+type UserProfile = 
+ record {
+   bio: opt text;
+   profilePicture: opt text;
+   username: text;
+ };
+type UserId = principal;
+type Result_3 = 
+ variant {
+   err: text;
+   ok: PostId;
+ };
+type Result_2 = 
+ variant {
+   err: text;
+   ok: BlogPost;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: UserProfile;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type PostId = nat;
+type BlogPost = 
+ record {
+   authorId: UserId;
+   content: text;
+   createdAt: int;
+   id: PostId;
+   title: text;
+   updatedAt: opt int;
+ };
+service : {
+  createBlogPost: (record {
+                     content: text;
+                     title: text;
+                   }) -> (Result_3);
+  createUser: (UserProfile) -> (Result);
+  getAllBlogPosts: () -> (vec BlogPost) query;
+  getAllUserProfiles: () -> (vec UserProfile) query;
+  getBlogPost: (PostId) -> (Result_2) query;
+  getUserProfile: (UserId) -> (Result_1);
+  updateBlogPost: (PostId, BlogPost) -> (Result);
+  updateUserProfile: (UserProfile) -> (Result);
+}
